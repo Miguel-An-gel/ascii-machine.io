@@ -249,8 +249,9 @@
 
             div_output.style.display = 'block'
 
-            div_output.innerHTML += "DECIMAL: " + decimal + '<br>'
             div_output.innerHTML += "BINÁRIO: " + decimal.toString(2) + '<br>'
+            div_output.innerHTML += "DECIMAL: " + decimal + '<br>'            
+            div_output.innerHTML += "OCTAL: " + decimal.toString(8) + '<br>'
             div_output.innerHTML += "HEXADECIMAL: " + decimal.toString(16) + '<br>'
         }
     }
