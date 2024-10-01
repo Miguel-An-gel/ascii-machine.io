@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Machine</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-image: url("ma.jpg");
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        gap: 20px;
+    }
+
+    .container,
+    .calculator {
+        background-color: #036c3b;
+        width: 350px;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        background-color: #f1f1f1;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        border: 2px solid #ccc;
+        background-color: #f1f1f1;
+        font-weight: bold;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .result {
+        background-color: #222;
+        color: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 18px;
+        text-align: left;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        background-color: #036c3b;
+        color: white;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>ASCII Machine</h1>
+        <input id="input_ascii" oninput="converterCaracter()" type="text" placeholder="Digite um caracter"
+            maxlength="1">
+        <br><br>
+        <div id="div_output" class="result"></div>
+    </div>
+
+    <div class="calculator">
+        <h1>Convert Machine</h1>
+        <select name="select" id="select_converter" onclick="select_opcao()">
+            <option value="default" selected>DEFAULT</option>
+            <option value="binario">BINÁRIO</option>
+            <option value="decimal">DECIMAL</option>
+            <option value="octal">OCTAL</option>
+            <option value="hexadecimal">HEXADECIMAL</option>
+        </select>
+        <div id="decimal_div"></div>
+        <div id="binario_div"></div>
+        <div id="octal_div"></div>
+        <div id="hexadecimal_div"></div>
+    </div>
+
+    <footer>Copyright © 2024 | Machine Machine | Miguel Angel</footer>
+
+</body>
+
+</html>
+
+<script>
+    function select_opcao() {
+        const opcao = select_converter.value;
+
+        vazio()
+
+        if (opcao == "binario") {
+
+            binario_div.innerHTML = `
+                <input oninput="binario()" 
+                onkeypress="return event.charCode >= 48 && event.charCode <= 49"
+                type="text" placeholder="Digite o número BINÁRIO" id="input_binario">
+                <div id="resultado_binario" class="result"></div>
+            `
+        } else if (opcao == "decimal") {
+            decimal_div.innerHTML = `
+                <input oninput="decimal()"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                type="text" placeholder="Digite o número DECIMAL" id="input_decimal">
+                <div id="resultado_decimal" class="result"></div>
+            `
+        } else if (opcao == "octal") {
+            octal_div.innerHTML = `
+                <input oninput="octal()"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 55"
+                type="text" placeholder="Digite o número OCTAL" id="input_octal1">
+                <div id="resultado_octal" class="result"></div>
+            `
+        } else if (opcao == "hexadecimal") {
+            hexadecimal_div.innerHTML = `
+                <input oninput="hexadecimal()" 
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57
+                ||  event.charCode >= 65 && event.charCode <= 70
+                ||  event.charCode >= 97 && event.charCode <= 102"
+                type="text" placeholder="Digite o número HEXADECIMAL" id="input_hex1">
+                <div id="resultado_hexadecimal" class="result"></div>
+            `
+        }
+    }
+
+    function binario() {
+        var bina = input_binario.value;
+        var decimal = parseInt(bina, 2)
+        var octal = decimal.toString(8)
+        var hexa = decimal.toString(16)
+
+        if (bina == "") {
+            vazio()
+        } else {
+            resultado_binario.innerHTML = `
+            DECIMAL: ${decimal}<br>
+            OCTAL: ${octal}<br>
+            HEXADECIMAL: ${hexa.toUpperCase()}
+        `}
+    }
+
+    function decimal() {
+        var decimal = Number(input_decimal.value)
+        var octal = decimal.toString(8)
+        var hexa = decimal.toString(16)
+        var binario = decimal.toString(2)
+
+        if (decimal == "") {
+            vazio()
+        } else {
+            resultado_decimal.innerHTML = `
+            BINÁRIO: ${binario}<br>
+            OCTAL: ${octal}<br>
+            HEXADECIMAL: ${hexa.toUpperCase()}
+        `}
+    }
+
+    function octal() {
+        var octal = input_octal1.value;
+        var decimal = parseInt(octal, 8)
+        var bina = decimal.toString(2)
+        var hexa = decimal.toString(16)
+
+        if (octal == "") {
+            vazio()
+        } else {
+            resultado_octal.innerHTML = `
+            DECIMAL: ${decimal}<br>
+            BINÁRIO: ${bina}<br>
+            HEXADECIMAL: ${hexa.toUpperCase()}
+        `}
+    }
+
+    function hexadecimal() {
+        var hexa = input_hex1.value
+        var decimal = parseInt(hexa, 16)
+        var bina = decimal.toString(2)
+        var octal = decimal.toString(8)
+
+        if (hexa == "") {
+            vazio()
+        } else {
+            resultado_hexadecimal.innerHTML = `
+            DECIMAL: ${decimal}<br>
+            BINÁRIO: ${bina}<br>
+            OCTAL: ${octal}
+        `}
+    }
+
+    function converterCaracter() {
+
+        div_output.innerHTML = ''
+
+        var caractere = input_ascii.value
+        var decimal = caractere.charCodeAt()
+
+        if (caractere =="") {
+            vazio()
+        } else {
+
+            div_output.style.display = 'block'
+
+            div_output.innerHTML += "DECIMAL: " + decimal + '<br>'
+            div_output.innerHTML += "BINÁRIO: " + decimal.toString(2) + '<br>'
+            div_output.innerHTML += "HEXADECIMAL: " + decimal.toString(16) + '<br>'
+        }
+    }
+
+    function vazio() {
+        binario_div.innerHTML = ``
+        decimal_div.innerHTML = ``
+        octal_div.innerHTML = ``
+        hexadecimal_div.innerHTML = ``
+
+
+    }
+</script>
